@@ -1,0 +1,73 @@
+/* General reset for margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background color for the whole page */
+body {
+    background-color: #f0f0f0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Create the scene to center the table and candle */
+.scene {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Create the table */
+.table {
+    position: relative;
+    width: 300px;
+    height: 100px;
+    background-color: #8B4513;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+/* Candle container */
+.candle {
+    position: absolute;
+    top: -50px; /* Move the candle above the table */
+    width: 30px;
+    height: 100px;
+    background-color: #f9d9a0;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Candle flame animation */
+.flame {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 10px;
+    height: 20px;
+    background: linear-gradient(to bottom, #ffcc00, #ff3300);
+    border-radius: 50%;
+    animation: flame-flicker 1.5s infinite alternate;
+}
+
+/* Animation for flickering flame */
+@keyframes flame-flicker {
+    0% {
+        height: 20px;
+        background: linear-gradient(to bottom, #ffcc00, #ff3300);
+        transform: translateX(-50%) scaleY(1);
+    }
+    100% {
+        height: 25px;
+        background: linear-gradient(to bottom, #ff9933, #ff6600);
+        transform: translateX(-50%) scaleY(1.2);
+    }
+}
