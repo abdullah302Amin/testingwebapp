@@ -18,7 +18,7 @@ def hello():
 @app.route('/second_page')
 def second_page():
     # Return a message for the second page
-    return "Hello to the second page!"
+    return "Hello to the second page!<br>good to see you on this page"
 
 # Run the app
 if __name__ == '__main__':
