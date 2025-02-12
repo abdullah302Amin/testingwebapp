@@ -11,7 +11,7 @@ def hello():
         Hello, welcome to the homepage!<br>
         Good to see you!!<br>
         You are on the production slot.<br>
-        <a href="/second_page">Go to the second page</a>
+        <a href="/second_page">Go to the second page!!!!!!</a>
     """
 
 # Define the route for the second page
