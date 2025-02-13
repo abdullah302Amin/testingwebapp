@@ -1,0 +1,12 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.93
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E53F8D7D-A4D4-4BDB-8BEB-4B56E9B4C8D1}") = "dotnet302", "dotnet302\dotnet302.csproj", "{C1D5E9C4-749F-4A7C-9F3F-5B70B29F5719}"
+EndProject
+Global
+  GlobalSection(SolutionConfigurationPlatforms) = preSolution
+    Debug|Any CPU = Debug|Any CPU
+    Release|Any CPU = Release|Any CPU
+  EndGlobalSection
+EndGlobal
