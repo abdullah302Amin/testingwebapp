@@ -25,13 +25,16 @@ jobs:
         run: nuget restore
 
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="published"  # Fixed path here
+        run: msbuild /nologo /verbosity:m /t:Build /t:Rebuild /p:_PackageTempDir="published"  # Make sure we're using the correct targets (Rebuild, not just Build)
+      
+      - name: List published files (debugging)
+        run: dir published  # Added this to list contents of the published directory for debugging
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: 'published/**'  # Fixed artifact path here (relative)
+          path: 'published/**'  # Ensure the correct path to upload
 
   deploy:
     runs-on: windows-latest
@@ -49,6 +52,9 @@ jobs:
         with:
           name: ASP-app
           path: './artifact'  # Specify the folder where the artifact is downloaded
+
+      - name: List downloaded files (debugging)
+        run: dir ./artifact  # List files to make sure they were downloaded
 
       - name: Login to Azure
         uses: azure/login@v2
