@@ -24,16 +24,16 @@ jobs:
 
       # Step 3: Restore NuGet packages
       - name: Restore NuGet Packages
-        run: nuget restore testingwebapp/SimpleWebApp.sln
+        run: nuget restore SimpleWebApp/SimpleWebApp.sln
 
       # Step 4: Build the solution
       - name: Build Solution
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\" testingwebapp/SimpleWebApp.sln
+        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\" SimpleWebApp/SimpleWebApp.sln
 
       # Step 5: Publish the application (Optional)
       - name: Publish Application
         run: |
-          msbuild testingwebapp/SimpleWebApp/SimpleWebApp.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=Azure /p:SkipInvalidConfigurations=true
+          msbuild SimpleWebApp/SimpleWebApp/SimpleWebApp.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=Azure /p:SkipInvalidConfigurations=true
 
       # Step 6: Deploy to Azure (Optional)
       - name: Deploy to Azure
