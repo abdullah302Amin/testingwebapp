@@ -10,58 +10,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: windows-latest
-    permissions:
-      contents: read #This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.0.2
+      # Step 2: Set up .NET Framework SDK
+      - name: Setup .NET Framework
+        uses: microsoft/setup-msbuild@v1
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
+      # Step 3: Restore NuGet packages
+      - name: Restore NuGet Packages
+        run: nuget restore testingwebapp/SimpleWebApp.sln
 
-      - name: Restore NuGet packages
-        run: nuget restore
+      # Step 4: Build the solution
+      - name: Build Solution
+        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\" testingwebapp/SimpleWebApp.sln
 
-      - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
+      # Step 5: Publish the application (Optional)
+      - name: Publish Application
+        run: |
+          msbuild testingwebapp/SimpleWebApp/SimpleWebApp.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=Azure /p:SkipInvalidConfigurations=true
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: ASP-app
-          path: '/published/**'
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: ASP-app
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EAD1FCC828244F93A38243D543F08224 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5A01A6F0FC2649BEADE99AF529266B62 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C173D2C88E9B4758B0B33094B82BF97B }}
-
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      # Step 6: Deploy to Azure (Optional)
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'dotnet302'
           slot-name: 'Production'
