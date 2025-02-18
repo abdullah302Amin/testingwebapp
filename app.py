@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import requests
 import uuid
-
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.translation.text import TextTranslationClient
 app = Flask(__name__)
 
 # Add your key and endpoint
