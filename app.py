@@ -3,13 +3,13 @@ import requests
 import uuid
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.translation.text import TextTranslationClient
-app = Flask(name )
+app = Flask(name)
 
-Add your key and endpoint
+
 key = "BF8WQCfzUar73JNOqUj5y0dcHU5lW1RGFycJtSeMgPYb366Tf69gJQQJ99BBAC1i4TkXJ3w3AAAbACOGgMDQ"
-endpoint = "https://api.cognitive.microsofttranslator.com "
+endpoint = "https://api.cognitive.microsofttranslator.com"
 
-Location, also known as region.
+
 location = "centralus"
 path = '/translate'
 constructed_url = endpoint + path
