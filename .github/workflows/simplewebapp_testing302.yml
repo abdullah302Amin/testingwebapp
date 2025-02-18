@@ -5,6 +5,9 @@
 name: Build and deploy Python app to Azure Web App - testing302
 
 on:
+  push:
+    branches:
+      - SimpleWebApp
   workflow_dispatch:
 
 jobs:
