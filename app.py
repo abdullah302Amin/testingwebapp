@@ -6,7 +6,7 @@ from azure.ai.translation.text import TextTranslationClient
 app = Flask(__name__)
 
 # Add your key and endpoint
-key = "BF8WQCfzUar73JNOqUj5y0dcHU5lW1RGFycJtSeMgPYb366Tf69gJQQJ99BBAC1i4TkXJ3w3AAAbACOGgMDQ"
+key = os.getenv("TRANSLATOR_KEY", "BF8WQCfzUar73JNOqUj5y0dcHU5lW1RGFycJtSeMgPYb366Tf69gJQQJ99BBAC1i4TkXJ3w3AAAbACOGgMDQ")
 endpoint = "https://api.cognitive.microsofttranslator.com"
 
 # Location, also known as region.
@@ -14,12 +14,6 @@ location = "centralus"
 
 path = '/translate'
 constructed_url = endpoint + path
-
-params = {
-    'api-version': '3.0',
-    'from': 'en',
-    'to': ['fr', 'zu', 'ur']
-}
 
 headers = {
     'Ocp-Apim-Subscription-Key': key,
@@ -31,28 +25,36 @@ headers = {
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        # Get user input from the form
+        # Get user input and selected language
         user_input = request.form.get("text")
+        target_language = request.form.get("language")
 
         # Use the user input in the body
         body = [{
             'text': user_input
         }]
 
+        # Update the params with the selected language
+        params = {
+            'api-version': '3.0',
+            'from': 'en',
+            'to': [target_language]
+        }
+
         # Send the request to the API
         response = requests.post(constructed_url, params=params, headers=headers, json=body)
         translation_response = response.json()
 
-        # Extract translations from the response
-        translations = []
-        for translation in translation_response[0]['translations']:
-            translations.append({
-                'language': translation['to'],
-                'translated_text': translation['text']
-            })
+        # Extract the translated text
+        translated_text = translation_response[0]['translations'][0]['text']
 
-        # Render the page with the translations
-        return render_template("index.html", translations=translations, original_text=user_input)
+        # Render the page with the translation
+        return render_template(
+            "index.html",
+            original_text=user_input,
+            translated_text=translated_text,
+            target_language=target_language
+        )
 
     # If it's a GET request, just render the form
     return render_template("index.html")
