@@ -16,7 +16,7 @@ constructed_url = endpoint + path
 params = {
 'api-version': '3.0',
 'from': 'en',
-'to': ['ar', 'hi', 'ur']
+'to': ['fr', 'zu', 'ur']
 }
 headers = {
 'Ocp-Apim-Subscription-Key': key,
