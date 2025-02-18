@@ -5,6 +5,9 @@
 name: Build and deploy Python app to Azure Web App - testing302
 
 on:
+  push:
+    branches:
+      - SimpleWebApp
   workflow_dispatch:
 
 jobs:
@@ -65,9 +68,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3B7609592B0D46C1B634C13CDFE91A22 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_47A87397078A4478B6B00EC5BD4ADBF1 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6D653CAAB56A4CAD902F3211274AC3BA }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1995AFE61B62402B9009189ADA363872 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2A5DF16F70FA4D1E8E53687B1411E5CD }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C50CCE7E99304F56BF2F577932B68735 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
